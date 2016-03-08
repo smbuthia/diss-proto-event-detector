@@ -65,7 +65,7 @@ class WordProcessor:
 
         return words
 
-
+"""
 processor = WordProcessor()
 tree = BinarySearchTree()
 tree = processor.fill_bst('C:/Users/smbuthia/Desktop/MachineLearning/My ML Projos/accidents_data_urls.txt')
@@ -76,3 +76,4 @@ sorted_x = sorted(x.items(), key=operator.itemgetter(1), reverse=True)
 for k, v in sorted_x:
     with open('C:/Users/smbuthia/Desktop/MachineLearning/My ML Projos/accident_top_words','a+') as f:
         f.write(k + '\n')
+"""
