@@ -6,15 +6,13 @@ __author__ = 'smbuthia'
 class MatrixProcessor:
     """Implementation for class that creates training set matrices"""
 
-    def create_training_vector(self, url, features):
+    def get_training_vector(self, url, features):
         vector = []
         tree = BinarySearchTree()
         word_processor = WordProcessor()
         for word in word_processor.get_words(url):
             tree.insert(word)
-        print(len(features))
         for i in range(len(features)):
-            print(features[i])
             feat = tree.find(tree.root, features[i])
             if feat is not None:
                 vector.insert(i,feat.value)
@@ -36,6 +34,14 @@ class MatrixProcessor:
         return features
 
 mp = MatrixProcessor()
-vec = mp.create_training_vector('http://www.nation.co.ke/counties/nairobi/One-killed-six-injured-Kamiti-crash/-/1954174/2609334/-/ytl871/-/index.html', mp.get_features_array('C:/Users/smbuthia/Desktop/MachineLearning/My ML Projos/accident_top_words',500))
-for v in vec:
-    print('{vl} \n'.format(vl=v))
+feature_arr = mp.get_features_array('C:/Users/smbuthia/Desktop/MachineLearning/My ML Projos/accident_top_words.txt',85)
+
+with open('C:/Users/smbuthia/Desktop/MachineLearning/My ML Projos/accidents_data.txt') as f1, open('C:/Users/smbuthia/Desktop/MachineLearning/My ML Projos/accident_ready_data_set.txt', 'a+') as f2:
+    for line in f1:
+        vec = []
+        l = line.split(' ', 1)
+        url = l[0]
+        label = l[1]
+        vec = mp.get_training_vector(url, feature_arr)
+        vec.append(label)
+        f2.write(','.join([str(x) for x in vec]))

@@ -110,11 +110,3 @@ class Node:
         self.left = left
         self.right = right
         self.value = 1
-
-#tree = BinarySearchTree()
-#nums = ['tree', 'man', 'bat', 'tree', 'quit', 'for', 'for', 'quit', 'it', 'tree']
-#for num in nums:
-    #tree.insert(num)
-
-#print(tree.maximum(tree.root).key)
-#tree.in_order_tree_walk(tree.root)

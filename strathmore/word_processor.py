@@ -56,12 +56,7 @@ class WordProcessor:
                                 words += tokenizer.tokenize(para_cont_string)
                             except TypeError:
                                 print("Invalid line!")
-            #english_stops = set(stopwords.words('english'))
             words = [word for word in words if word not in set(stopwords.words('english'))]
-
-            #for word in words:
-                #with open('C:/Users/smbuthia/nltk_data/corpora/nationmedia/newswords','a+') as f:
-                    #f.write(word+'\n')
 
         return words
 
