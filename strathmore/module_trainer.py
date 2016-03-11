@@ -26,18 +26,28 @@ class ModuleTrainer:
     def safe_log(self, x):
         return np.log(x.clip(min=0.00000001))
 
+    def predict(self, theta, X, threshold):
+        z = X.dot(theta)
+        h = self.sigmoid(z)
+        h[h > threshold] = 1
+        h[h <= threshold] = 0
+        return h
+
+    def accuracy(self, theta, X_test, y_test, threshold):
+        h = self.predict(theta, X_test, threshold)
+        return np.mean(np.double(h == y_test)) * 100
+
 
 trainer = ModuleTrainer()
 X, y = trainer.load_training_data('C:/Users/smbuthia/Desktop/MachineLearning/My ML Projos/accident_ready_data_set.txt', 85)
-#X, y = trainer.load_training_data('C:/Users/smbuthia/Desktop/MachineLearning/ex2/ex2data1.txt', 2)
+# X, y = trainer.load_training_data('C:/Users/smbuthia/Desktop/MachineLearning/ex2/ex2data1.txt', 2)
 m = X.shape[0]
 X = np.column_stack([ones(m), X])
 n = X.shape[1]
 initial_theta = zeros(n)
 J, gradient = trainer.compute_cost(initial_theta, X, y)
-#print('The cost is: {cost}'.format(cost=J))
-#print('The gradient is: {g}'.format(g=gradient))
-
+print('The initial cost is: {cost}'.format(cost=J))
+print('The initial gradient is: {g}'.format(g=gradient))
 
 
 def cost_function(theta):
@@ -45,7 +55,6 @@ def cost_function(theta):
     return cost
 
 result = op.fmin_bfgs(cost_function, initial_theta, maxiter=400)
-
 final_cost, final_grad = trainer.compute_cost(result, X, y)
 print('The final cost will be: {cst}'.format(cst=final_cost))
 print('The final gradient will be: {fgrad}'.format(fgrad=final_grad))
