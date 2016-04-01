@@ -1,4 +1,3 @@
-from numpy import loadtxt, where, transpose, dot, zeros, ones, log
 import numpy as np
 import scipy.optimize as op
 
@@ -9,7 +8,7 @@ class ModuleTrainer:
     """Implementation for class that trains the module"""
 
     def load_training_data(self, filename, n):
-        data = loadtxt(filename, delimiter=',')
+        data = np.loadtxt(filename, delimiter=',')
         return data[:, 0:n], data[:, data.shape[1]-1]
 
     def sigmoid(self, z):
@@ -19,8 +18,8 @@ class ModuleTrainer:
     def compute_cost(self, theta, X, y):
         m = X.shape[0]
         z = X.dot(theta)
-        J = (1./m)*(-transpose(y).dot(self.safe_log(self.sigmoid(z))) - transpose(1-y).dot(self.safe_log(1 - self.sigmoid(z))))
-        grad = transpose((1./m) * transpose(self.sigmoid(z) - y).dot(X))
+        J = (1./m)*(-np.transpose(y).dot(self.safe_log(self.sigmoid(z))) - np.transpose(1-y).dot(self.safe_log(1 - self.sigmoid(z))))
+        grad = np.transpose((1./m) * np.transpose(self.sigmoid(z) - y).dot(X))
         return J, grad
 
     def compute_cost_reg(self, theta, X, y, lambda_):
@@ -57,10 +56,10 @@ X = X_init[0:m, :]
 y = y_init[0:m]
 if m > X.shape[0]:
     m = X.shape[0]
-X = np.column_stack([ones(m), X])
+X = np.column_stack([np.ones(m), X])
 n = X.shape[1]
 lambda_1 = 10000
-initial_theta = zeros(n)
+initial_theta = np.zeros(n)
 J, grad = trainer.compute_cost_reg(initial_theta, X, y, lambda_1)
 print('The regularized initial cost is: {cost}'.format(cost=J))
 print('The regularized initial gradient is: {g}'.format(g=grad))
@@ -86,7 +85,7 @@ if m+m_cv < X_init.shape[0]:
     # print('Dimensions for X_cv: {xcv_d}'.format(xcv_d=X_cv.shape))
     # print('Dimensions for y_cv: {ycv_d}'.format(ycv_d=y_cv.shape))
     # print('Value of m_cv : {mcv_d}'.format(mcv_d=m_cv))
-    X_cv = np.column_stack([ones(m_cv), X_cv])
+    X_cv = np.column_stack([np.ones(m_cv), X_cv])
     n_cv = X_cv.shape[1]
     acc = trainer.accuracy(result, X_cv, y_cv, 0.5)
     print('The accuracy is {accu}'.format(accu=acc))
