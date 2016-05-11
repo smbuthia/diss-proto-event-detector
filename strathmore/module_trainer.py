@@ -35,6 +35,7 @@ class ModuleTrainer:
         return np.log(x.clip(min=0.00000001))
 
     def predict(self, theta, X, threshold):
+        # z = np.dot(X, theta)
         z = X.dot(theta)
         h = self.sigmoid(z)
         h[h > threshold] = 1
@@ -45,12 +46,12 @@ class ModuleTrainer:
         h = self.predict(theta, X_test, threshold)
         return np.mean(np.float32(h == y_test)) * 100
 
-
+"""
 trainer = ModuleTrainer()
 num_of_feat = 100
 m = 125
 m_cv = np.int((m/0.6)*0.2)
-raw_data_file = 'C:/Users/smbuthia/Desktop/MachineLearning/My ML Projos/accident_ready_data_set_100.txt'
+raw_data_file = 'C:/Users/smbuthia/Desktop/My ML Projos/dissertation/accident_ready_data_set_100.txt'
 X_init, y_init = trainer.load_training_data(raw_data_file, num_of_feat)
 X = X_init[0:m, :]
 y = y_init[0:m]
@@ -78,6 +79,15 @@ result = op.fmin_bfgs(cost_function_reg, initial_theta, maxiter=400)
 final_cost, final_grad = trainer.compute_cost_reg(result, X, y, lambda_1)
 print('The regularized final cost will be: {cst}'.format(cst=final_cost))
 print('The regularized final gradient will be: {fgrad}'.format(fgrad=final_grad))
+"""
+# write this vector to a file to be used for other predictions
+"""
+gradients_file = 'C:/Users/smbuthia/Desktop/My ML Projos/dissertation/'\
+                 'gradients - {feat_num}'.format(feat_num = num_of_feat)
+with open(gradients_file, 'a+') as f1:
+    f1.write(','.join([str(x) for x in final_grad]))
+"""
+"""
 if m+m_cv < X_init.shape[0]:
     last_m = m+m_cv
     X_cv = X_init[m:last_m, :]
@@ -91,3 +101,4 @@ if m+m_cv < X_init.shape[0]:
     print('The accuracy is {accu}'.format(accu=acc))
 else:
     print('Cannot test the accuracy because the data set is too small.')
+"""
